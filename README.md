@@ -13,6 +13,26 @@ remain at its default resolution of 1280×720. Due to sub-pixel precision errors
 the image may also appear to be slightly less sharp when overscanned
 (a more polished implementation could likely avoid this).
 
+## Comparison
+
+### SSAO only
+
+| Before (0% overscan) | After (8% overscan per side) |
+|-|-|
+| ![ssao_only_100](https://raw.githubusercontent.com/Calinou/media/master/godot-overscan-demo/ssao_only_100.png) | ![ssao_only_108](https://raw.githubusercontent.com/Calinou/media/master/godot-overscan-demo/ssao_only_108.png) |
+
+### SSAO and SSIL
+
+| Before (0% overscan) | After (8% overscan per side) |
+|-|-|
+| ![ssao_and_ssil_100](https://raw.githubusercontent.com/Calinou/media/master/godot-overscan-demo/ssao_and_ssil_100.png) | ![ssao_and_ssil_108](https://raw.githubusercontent.com/Calinou/media/master/godot-overscan-demo/ssao_and_ssil_108.png) |
+
+### SSAO and SSIL (2)
+
+| Before (0% overscan) | After (5% overscan per side) | After (8% overscan per side) |
+|-|-|-|
+| ![ssao_and_ssil_2_100](https://raw.githubusercontent.com/Calinou/media/master/godot-overscan-demo/ssao_and_ssil_2_100.png) | ![ssao_and_ssil_2_105](https://raw.githubusercontent.com/Calinou/media/master/godot-overscan-demo/ssao_and_ssil_2_105.png) | ![ssao_and_ssil_2_108](https://raw.githubusercontent.com/Calinou/media/master/godot-overscan-demo/ssao_and_ssil_2_108.png) |
+
 ## Controls
 
 - <kbd>Space</kbd>: Play/pause camera animation
