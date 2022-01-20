@@ -1,0 +1,138 @@
+[gd_scene load_steps=9 format=3 uid="uid://dlfmcrvcbwqk8"]
+
+[ext_resource type="ArrayMesh" uid="uid://01i7sbnye6lu" path="res://zdm2.obj" id="1_4kcfx"]
+[ext_resource type="Script" path="res://fps_label.gd" id="2_fxjr5"]
+[ext_resource type="Script" path="res://overscan.gd" id="2_vmsnt"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_v6wij"]
+sky_top_color = Color(0.568627, 0.698039, 0.807843, 1)
+sky_horizon_color = Color(0.672549, 0.704902, 0.734314, 1)
+ground_bottom_color = Color(0.121569, 0.121569, 0.129412, 1)
+ground_horizon_color = Color(0.672549, 0.704902, 0.734314, 1)
+
+[sub_resource type="Sky" id="Sky_c6tlj"]
+sky_material = SubResource( "ProceduralSkyMaterial_v6wij" )
+
+[sub_resource type="Environment" id="Environment_uu443"]
+background_mode = 2
+sky = SubResource( "Sky_c6tlj" )
+tonemap_mode = 2
+ssao_enabled = true
+ssil_enabled = true
+glow_enabled = true
+
+[sub_resource type="Animation" id="Animation_0fxsj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewportContainer/SubViewport/Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.355563, 2.96413, -1.63791)]
+}
+
+[sub_resource type="Animation" id="Animation_l5n7k"]
+resource_name = "move_camera"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewportContainer/SubViewport/Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector3(-0.355563, 2.96413, -1.63791), Vector3(-0.321401, 4.19105, 3.2091)]
+}
+
+[node name="Node3D" type="Node3D"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stretch = true
+script = ExtResource( "2_vmsnt" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(-0.999975, -0.00172942, -0.00683239, 0, 0.969426, -0.245382, 0.00704787, -0.245376, -0.969402, -0.355563, 2.96413, -1.63791)
+
+[node name="FPSLabel" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 56.0
+offset_bottom = 39.0
+script = ExtResource( "2_fxjr5" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OverscanLabel" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 89.0
+offset_bottom = 90.0
+text = "Overscan"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OverscanSlider" type="HSlider" parent="."]
+offset_left = 16.0
+offset_top = 96.0
+offset_right = 199.0
+offset_bottom = 112.0
+min_value = 1.0
+max_value = 1.25
+step = 0.01
+value = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Value" type="Label" parent="OverscanSlider"]
+offset_left = 193.0
+offset_right = 233.0
+offset_bottom = 23.0
+text = "1.00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( "Environment_uu443" )
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.855166, -0.348664, 0.383567, 0.1367, 0.56208, 0.815708, -0.500004, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+shadow_bias = 0.04
+directional_shadow_mode = 0
+directional_shadow_fade_start = 1.0
+directional_shadow_max_distance = 25.0
+directional_shadow_pancake_size = 22.0
+
+[node name="Zdm2" type="MeshInstance3D" parent="."]
+gi_mode = 1
+mesh = ExtResource( "1_4kcfx" )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "move_camera"
+anims/RESET = SubResource( "Animation_0fxsj" )
+anims/move_camera = SubResource( "Animation_l5n7k" )
+
+[connection signal="value_changed" from="OverscanSlider" to="SubViewportContainer" method="_on_overscan_slider_value_changed"]
