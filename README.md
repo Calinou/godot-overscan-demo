@@ -13,6 +13,10 @@ remain at its default resolution of 1280×720. Due to sub-pixel precision errors
 the image may also appear to be slightly less sharp when overscanned
 (a more polished implementation could likely avoid this).
 
+In general, overscan is quite expensive, especially at higher resolutions.
+Therefore, it is only recommended on high-end dedicated GPUs or for
+[offline rendering](https://github.com/Calinou/godot-photo-mode-demo).
+
 ## Comparison
 
 ### SSAO only
