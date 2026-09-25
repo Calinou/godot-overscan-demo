@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dlfmcrvcbwqk8"]
+[gd_scene format=3 uid="uid://dlfmcrvcbwqk8"]
 
 [ext_resource type="ArrayMesh" uid="uid://01i7sbnye6lu" path="res://zdm2.obj" id="1_4kcfx"]
-[ext_resource type="Script" path="res://fps_label.gd" id="2_fxjr5"]
-[ext_resource type="Script" path="res://overscan.gd" id="2_vmsnt"]
+[ext_resource type="Script" uid="uid://dgrqdwb43ul2o" path="res://fps_label.gd" id="2_fxjr5"]
+[ext_resource type="Script" uid="uid://b3j84348lef48" path="res://overscan.gd" id="2_vmsnt"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_v6wij"]
 sky_top_color = Color(0.568627, 0.698039, 0.807843, 1)
@@ -11,15 +11,22 @@ ground_bottom_color = Color(0.121569, 0.121569, 0.129412, 1)
 ground_horizon_color = Color(0.672549, 0.704902, 0.734314, 1)
 
 [sub_resource type="Sky" id="Sky_c6tlj"]
-sky_material = SubResource( "ProceduralSkyMaterial_v6wij" )
+sky_material = SubResource("ProceduralSkyMaterial_v6wij")
 
 [sub_resource type="Environment" id="Environment_uu443"]
 background_mode = 2
-sky = SubResource( "Sky_c6tlj" )
+sky = SubResource("Sky_c6tlj")
 tonemap_mode = 2
+ssr_enabled = true
+ssr_max_steps = 512
+ssr_fade_in = 0.0
+ssr_fade_out = 0.0
 ssao_enabled = true
 ssil_enabled = true
 glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6uqi0"]
+roughness = 0.1
 
 [sub_resource type="Animation" id="Animation_0fxsj"]
 length = 0.001
@@ -53,46 +60,53 @@ tracks/0/keys = {
 "values": [Vector3(-0.355563, 2.96413, -1.63791), Vector3(-0.321401, 4.19105, 3.2091)]
 }
 
-[node name="Node3D" type="Node3D"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6uqi0"]
+_data = {
+&"RESET": SubResource("Animation_0fxsj"),
+&"move_camera": SubResource("Animation_l5n7k")
+}
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[sub_resource type="BoxMesh" id="BoxMesh_6uqi0"]
+size = Vector3(6, 1, 6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ppyta"]
+metallic = 1.0
+roughness = 0.0
+
+[node name="Node3D" type="Node3D" unique_id=807106507]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1056780118]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 stretch = true
-script = ExtResource( "2_vmsnt" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("2_vmsnt")
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=2098242537]
 handle_input_locally = false
-size = Vector2i(1280, 720)
+scaling_3d_mode = 2
+fsr_sharpness = 2.0
+size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=906628630]
 transform = Transform3D(-0.999975, -0.00172942, -0.00683239, 0, 0.969426, -0.245382, 0.00704787, -0.245376, -0.969402, -0.355563, 2.96413, -1.63791)
 
-[node name="FPSLabel" type="Label" parent="."]
+[node name="FPSLabel" type="Label" parent="." unique_id=1069009828]
 offset_left = 16.0
 offset_top = 16.0
 offset_right = 56.0
 offset_bottom = 39.0
-script = ExtResource( "2_fxjr5" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("2_fxjr5")
 
-[node name="OverscanLabel" type="Label" parent="."]
+[node name="OverscanLabel" type="Label" parent="." unique_id=1382645426]
 offset_left = 16.0
 offset_top = 64.0
 offset_right = 89.0
 offset_bottom = 90.0
 text = "Overscan"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="OverscanSlider" type="HSlider" parent="."]
+[node name="OverscanSlider" type="HSlider" parent="." unique_id=1480531990]
 offset_left = 16.0
 offset_top = 96.0
 offset_right = 199.0
@@ -101,23 +115,18 @@ min_value = 1.0
 max_value = 1.25
 step = 0.01
 value = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Value" type="Label" parent="OverscanSlider"]
+[node name="Value" type="Label" parent="OverscanSlider" unique_id=2118042312]
+layout_mode = 0
 offset_left = 193.0
 offset_right = 233.0
 offset_bottom = 23.0
 text = "1.00"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( "Environment_uu443" )
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=236818259]
+environment = SubResource("Environment_uu443")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=460135780]
 transform = Transform3D(-0.855166, -0.348664, 0.383567, 0.1367, 0.56208, 0.815708, -0.500004, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
 shadow_bias = 0.04
@@ -126,13 +135,17 @@ directional_shadow_fade_start = 1.0
 directional_shadow_max_distance = 25.0
 directional_shadow_pancake_size = 22.0
 
-[node name="Zdm2" type="MeshInstance3D" parent="."]
-gi_mode = 1
-mesh = ExtResource( "1_4kcfx" )
+[node name="Zdm2" type="MeshInstance3D" parent="." unique_id=885530690]
+material_override = SubResource("StandardMaterial3D_6uqi0")
+mesh = ExtResource("1_4kcfx")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "move_camera"
-anims/RESET = SubResource( "Animation_0fxsj" )
-anims/move_camera = SubResource( "Animation_l5n7k" )
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1503264491]
+libraries/ = SubResource("AnimationLibrary_6uqi0")
+autoplay = &"move_camera"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=47994317]
+transform = Transform3D(-0.9997998, 0.00048813058, -0.020002982, 0.0011363341, 0.99947417, -0.032406747, 0.019976642, -0.03242296, -0.99927455, 2.283081, 6.6516514, 7.222824)
+mesh = SubResource("BoxMesh_6uqi0")
+surface_material_override/0 = SubResource("StandardMaterial3D_ppyta")
 
 [connection signal="value_changed" from="OverscanSlider" to="SubViewportContainer" method="_on_overscan_slider_value_changed"]
